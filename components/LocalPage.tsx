@@ -1,21 +1,33 @@
-import React, { useState } from "react";
-import { ScrollView, View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground, Button, Modal } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Item from "./Item";
+import AddingItem from "./AddingItem";
 
 const LocalPage = () => {
+
+
   const logoImg = 'https://th.bing.com/th/id/OIP.TMBfPNCppuMxNooOJktxvQHaHa?w=161&h=180&c=7&r=0&o=5&pid=1.7';
   const headerImg = 'https://thegavoice.com/wp-content/uploads/2014/08/mexican-food-2462.jpg';
   const clock = 'https://firebasestorage.googleapis.com/v0/b/corrida-9e963.appspot.com/o/clock-two-svgrepo-com%20(1).png?alt=media&token=99ed7d46-88b5-49d5-bbac-2ee7b356f44a';
   const deliveryIcon = 'https://firebasestorage.googleapis.com/v0/b/corrida-9e963.appspot.com/o/delivery-scooter-svgrepo-com.png?alt=media&token=6280724d-94e3-465b-a5aa-0f399e566c97';
   const infoImg = 'https://firebasestorage.googleapis.com/v0/b/corrida-9e963.appspot.com/o/info-circle-svgrepo-com.png?alt=media&token=dbeca3b8-6842-4c09-ae99-ad8d32dc119c';
-  const valorFreteImg = 'https://firebasestorage.googleapis.com/v0/b/corrida-9e963.appspot.com/o/money-svgrepo-com.png?alt=media&token=47b742c1-e300-43d9-abd3-9d576f5e35d8';
 
   const [activeButton, setActiveButton] = useState('TODOS');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [itemModalVisible, setItemModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setItemModalVisible(true);
+  };
+
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
+
 
   const estatico_img = 'https://firebasestorage.googleapis.com/v0/b/corrida-9e963.appspot.com/o/taco-chilli.jpeg?alt=media&token=80f73db3-c335-47da-befc-c499ba5bb367';
 
@@ -27,19 +39,19 @@ const LocalPage = () => {
       Img: estatico_img,
     },
     {
-      Nome: 'Taco Chilli',
+      Nome: 'Taco Pig Pig',
       Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
       Valor: 'R$43,99',
       Img: estatico_img,
     },
     {
-      Nome: 'Taco Chilli',
+      Nome: 'Taco Chocolado',
       Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
       Valor: 'R$43,99',
       Img: estatico_img,
     },
     {
-      Nome: 'Taco Chilli',
+      Nome: 'Taco Chicken',
       Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
       Valor: 'R$43,99',
       Img: estatico_img,
@@ -54,19 +66,19 @@ const LocalPage = () => {
       Img: estatico_img,
     },
     {
-      Nome: 'Burrito Chilli',
+      Nome: 'Burrito Chicken',
+      Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
+      Valor: 'R$25,99',
+      Img: estatico_img,
+    },
+    {
+      Nome: 'Burrito Pig Pig',
       Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
       Valor: 'R$43,99',
       Img: estatico_img,
     },
     {
-      Nome: 'Burrito Chilli',
-      Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
-      Valor: 'R$43,99',
-      Img: estatico_img,
-    },
-    {
-      Nome: 'Burrito Chilli',
+      Nome: 'Burrito Chocolado',
       Desc: 'Chilli, Pimenta Moderada, Curry, Tomates, Cheader, Bacon',
       Valor: 'R$43,99',
       Img: estatico_img,
@@ -101,10 +113,38 @@ const LocalPage = () => {
           </View>
         </View>
 
-
         <View style={styles.localInfosHeader}>
-          <Text style={[styles.bottomTextsTitle, styles.MoneyLink]}>Valor da Entrega</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={[styles.bottomTextsTitle, styles.MoneyLink]}>Valor da Entrega</Text>
+          </TouchableOpacity>
         </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalBairros}>
+                <Text style={styles.modalText}>Fraron R$10,00</Text>
+                <Text style={styles.modalText}>Centro R$5,00</Text>
+                <Text style={styles.modalText}>Alvorada R$10,00</Text>
+                <Text style={styles.modalText}>Patão R$10,00</Text>
+                <Text style={styles.modalText}>La Salle R$10,00</Text>
+                <Text style={styles.modalText}>São Cristóvão R$10,00</Text>
+                <Text style={styles.modalText}>Jardim Italia R$10,00</Text>
+                <Text style={styles.modalText}>Planalto I R$10,00</Text>
+                <Text style={styles.modalText}>Planalto II R$10,00</Text>
+                <Text style={styles.modalText}>Vila Nova R$10,00</Text>
+                <Text style={styles.modalText}>Bortot R$10,00</Text>
+                <Text style={styles.modalText}>Cristo Rei R$10,00</Text>
+              </View>
+              <Button title="Fechar" onPress={() => setModalVisible(false)} />
+            </View>
+          </View>
+        </Modal>
 
         <View style={styles.menuNav}>
           <View style={styles.menuNavButtons}>
@@ -133,7 +173,7 @@ const LocalPage = () => {
                 />
               ))}
               {activeButton === "TACOS" && TACOS.map((taco, index) => (
-                <Item
+                <Item onPress={() => setSelectedItem(taco)}
                   key={index}
                   Nome={taco.Nome}
                   Desc={taco.Desc}
@@ -149,7 +189,7 @@ const LocalPage = () => {
                   Valor={burrito.Valor}
                   Img={burrito.Img}
                 />
-              ))} 
+              ))}
             </LinearGradient>
           </View>
         </View>
@@ -174,7 +214,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 'auto',
-    paddingTop: 80,
+    paddingTop: 0,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -276,6 +316,38 @@ const styles = StyleSheet.create({
   },
   menuItems: {
     marginTop: 20,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 10,
+      height: 10
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 10,
+    textAlign: "center",
+    fontWeight: '600',
+    fontSize: 18
+  },
+  modalBairros: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 6,
   },
 });
 
